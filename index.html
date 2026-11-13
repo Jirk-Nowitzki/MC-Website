@@ -1,0 +1,342 @@
+<title>Jirk's Farm</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Nunito:wght@400;600;700&display=swap">
+<style>
+/* Layout: one soft, wavy scroll. Hero -> wave -> farm tutorials -> wave -> server. Pastel yellow ground, sage / sky / peach / lavender accents. */
+:root{
+  --bg:#FFF8D6; --bg2:#FFEFA8; --card:#FFFDF2; --ink:#3B3321; --muted:#7A6D4B; --line:#F1E3A0;
+  --btn:#F4B400; --btn-ink:#3B3321; --sage:#CDE8C6; --sky:#CCE5F5; --peach:#FFD3BC; --lav:#E1D7F6;
+  --shadow:0 10px 30px rgba(120,95,10,.12);
+  --display:'Levi Windows','Fredoka','Nunito','Trebuchet MS',system-ui,sans-serif;
+  --body:'Nunito','Fredoka',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#221E12; --bg2:#2C2716; --card:#2F2A1A; --ink:#F9F0CC; --muted:#CDBF8E; --line:#454024;
+  --btn:#F7C948; --btn-ink:#2A2410; --sage:#46603F; --sky:#35566B; --peach:#6E4B3A; --lav:#51426F;
+  --shadow:0 10px 30px rgba(0,0,0,.35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#221E12; --bg2:#2C2716; --card:#2F2A1A; --ink:#F9F0CC; --muted:#CDBF8E; --line:#454024;
+  --btn:#F7C948; --btn-ink:#2A2410; --sage:#46603F; --sky:#35566B; --peach:#6E4B3A; --lav:#51426F;
+  --shadow:0 10px 30px rgba(0,0,0,.35); color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;overflow-x:hidden}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.1;margin:0;text-wrap:balance;letter-spacing:.2px}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--btn);outline-offset:3px;border-radius:10px}
+
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.band{position:relative;z-index:1}
+.eyebrow{font-family:var(--display);font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* drifting background blobs */
+.blobs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(50px);opacity:.55;will-change:transform}
+.b1{width:340px;height:340px;background:var(--sage);top:6%;left:-90px}
+.b2{width:300px;height:300px;background:var(--sky);top:38%;right:-80px}
+.b3{width:360px;height:360px;background:var(--peach);top:72%;left:8%}
+
+/* nav */
+nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:20px}
+.brand{font-family:var(--display);font-weight:600;font-size:1.25rem;text-decoration:none;display:flex;align-items:center;gap:10px}
+.brand i{width:26px;height:26px;border-radius:8px;background:var(--btn);display:inline-block;transform:rotate(-8deg)}
+.links{display:flex;gap:6px;flex-wrap:wrap}
+.links a{text-decoration:none;padding:8px 14px;border-radius:99px;font-weight:700;font-size:.95rem;color:var(--muted);transition:background .25s,color .25s}
+.links a:hover{background:var(--card);color:var(--ink)}
+.links a.discord{background:var(--lav);color:var(--ink);font-family:var(--display);font-weight:500}
+.links a.discord:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:1.05rem;text-decoration:none;border:0;cursor:pointer;padding:14px 26px;border-radius:99px;background:var(--btn);color:var(--btn-ink);box-shadow:0 6px 0 rgba(120,90,0,.22);transition:transform .25s ease,box-shadow .25s ease}
+.btn:hover{transform:translateY(-3px);box-shadow:0 9px 0 rgba(120,90,0,.2)}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(120,90,0,.25)}
+.btn.ghost{background:var(--card);box-shadow:none;border:2px solid var(--line)}
+.btn.ghost:hover{box-shadow:var(--shadow)}
+.play{width:0;height:0;border-left:11px solid currentColor;border-top:7px solid transparent;border-bottom:7px solid transparent}
+
+/* hero */
+.hero{padding-block:36px 56px;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(2.4rem,6.5vw,4.4rem);margin-block:14px 18px}
+.hero h1 span{background:linear-gradient(transparent 62%,var(--bg2) 62%);padding:0 .1em}
+.hero p.lead{font-size:1.15rem;color:var(--muted);max-width:34ch}
+.cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.chip{background:var(--card);border:2px solid var(--line);border-radius:99px;padding:6px 14px;font-weight:700;font-size:.9rem}
+.chip b{font-family:var(--display)}
+.hero-art{position:relative;max-width:100%;min-width:0;padding:30px 0 30px 20px}
+.tile{position:absolute;box-shadow:var(--shadow);animation:bob 7s ease-in-out infinite;z-index:0}
+.t1{inset:0 auto auto 0;width:46%;height:42%;background:var(--sage);border-radius:28px}
+.t4{inset:auto 0 0 auto;width:34%;aspect-ratio:1;background:var(--peach);border-radius:50%;animation-delay:-2s}
+.latest{position:relative;z-index:1;display:flex;flex-direction:column;gap:14px;background:var(--card);border-radius:28px;box-shadow:var(--shadow);padding:14px 14px 20px;text-decoration:none;transition:transform .35s ease}
+.latest:hover{transform:translateY(-6px) rotate(-.6deg)}
+.lthumb{aspect-ratio:16/9;max-width:100%;border-radius:20px;background:var(--sky);display:grid;place-items:center;position:relative}
+.lbadge{position:absolute;left:12px;top:12px;background:var(--card);padding:3px 12px;border-radius:99px;font-family:var(--display);font-size:.8rem}
+.lplay{width:64px;height:64px;border-radius:50%;background:var(--btn);color:var(--btn-ink);display:grid;place-items:center;box-shadow:0 5px 0 rgba(120,90,0,.2);transition:transform .3s}
+.lplay .play{margin-left:4px;border-left-width:14px;border-top-width:9px;border-bottom-width:9px}
+.latest:hover .lplay{transform:scale(1.1)}
+.latest strong{font-family:var(--display);font-weight:600;font-size:1.25rem;line-height:1.2;padding-inline:8px}
+.latest small{color:var(--muted);font-weight:700;padding-inline:8px;margin-top:-8px}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-12px) rotate(1.5deg)}}
+
+/* waves */
+.wave{display:block;width:100%;height:70px;margin-bottom:-1px}
+.wave path{fill:var(--bg2)}
+.wave.flip{transform:scaleY(-1);margin-top:-1px;margin-bottom:0}
+.tint{background:var(--bg2);position:relative;z-index:1}
+
+/* section heads */
+.head{padding-block:34px 28px;max-width:60ch}
+.head h2{font-size:clamp(1.9rem,4.6vw,2.9rem);margin-block:10px 12px}
+.head p{color:var(--muted)}
+
+/* farms */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.filters button{font-family:var(--display);font-size:.95rem;font-weight:500;padding:8px 16px;border-radius:99px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;transition:transform .2s,background .2s}
+.filters button:hover{transform:translateY(-2px)}
+.filters button[aria-pressed="true"]{background:var(--btn);border-color:var(--btn);color:var(--btn-ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:22px;padding-bottom:70px}
+.card{background:var(--card);border-radius:26px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;min-width:0;transition:transform .35s ease}
+.card:hover{transform:translateY(-6px)}
+.thumb{aspect-ratio:16/9;max-width:100%;display:grid;place-items:center;position:relative;text-decoration:none}
+.thumb .pbtn{width:58px;height:58px;border-radius:50%;background:var(--card);display:grid;place-items:center;color:var(--ink);box-shadow:var(--shadow);transition:transform .3s}
+.thumb:hover .pbtn{transform:scale(1.12)}
+.thumb .pbtn .play{margin-left:4px}
+.thumb small{position:absolute;left:14px;bottom:10px;font-weight:700;font-size:.8rem;color:var(--ink);opacity:.75}
+.body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:14px;flex:1;min-width:0}
+.body h3{font-size:1.35rem}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.diff{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.9rem}
+.dots{display:inline-flex;gap:3px}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--ink)}
+.pill{padding:3px 12px;border-radius:99px;font-family:var(--display);font-size:.85rem;color:var(--ink)}
+.rate{background:var(--bg);border-radius:16px;padding:10px 14px;display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.rate span{color:var(--muted);font-size:.85rem;font-weight:700}
+.rate b{font-family:var(--display);font-size:1.1rem;font-variant-numeric:tabular-nums}
+.watch{margin-top:auto;font-family:var(--display);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.watch:hover{text-decoration:underline}
+.note{color:var(--muted);font-size:.85rem;text-align:center;padding-bottom:30px}
+
+/* server */
+.server{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding-bottom:50px;align-items:start}
+.ipcard{background:var(--card);border-radius:30px;padding:28px;box-shadow:var(--shadow);display:grid;gap:18px;min-width:0}
+.ipcard .tag{display:inline-block;background:var(--sage);padding:4px 14px;border-radius:99px;font-family:var(--display);font-size:.85rem;width:max-content}
+.ip{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.ip code{flex:1;min-width:0;font-family:var(--display);font-size:clamp(1.15rem,3.6vw,1.6rem);background:var(--bg);border:2px dashed var(--line);border-radius:16px;padding:12px 16px;overflow-wrap:anywhere;user-select:all}
+.ip .btn{padding:12px 20px;font-size:.95rem}
+.feat{display:flex;gap:8px;flex-wrap:wrap}
+.feat span{padding:5px 13px;border-radius:99px;font-weight:700;font-size:.88rem}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:14px;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;background:var(--card);border-radius:22px;padding:16px 18px;box-shadow:var(--shadow);min-width:0}
+.steps li::before{content:counter(s);width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:600;background:var(--lav)}
+.steps li:nth-child(2)::before{background:var(--sky)}
+.steps li:nth-child(3)::before{background:var(--peach)}
+.steps li:nth-child(4)::before{background:var(--sage)}
+.steps h3{font-size:1.1rem;margin-bottom:2px}
+.steps p{color:var(--muted);font-size:.95rem}
+.steps kbd{font-family:var(--display);background:var(--bg);padding:1px 8px;border-radius:8px;font-size:.9em}
+
+footer{text-align:center;padding-block:44px 60px;color:var(--muted);font-size:.95rem;position:relative;z-index:1}
+footer b{font-family:var(--display);color:var(--ink)}
+
+/* scroll reveal: visible by default, only below-the-fold items get the entry state */
+.pre{opacity:.01;transform:translateY(34px)}
+.rv{transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr;gap:28px}
+  .hero-art{max-width:440px;margin:0 auto;width:100%}
+  .server{grid-template-columns:1fr}
+  .links a{padding:8px 10px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .tile{animation:none}
+  .pre{opacity:1;transform:none}
+  .rv,.card,.btn{transition:none}
+}
+</style>
+
+<div class="blobs" aria-hidden="true"><div class="blob b1" data-s=".06"></div><div class="blob b2" data-s="-.04"></div><div class="blob b3" data-s=".09"></div></div>
+
+<div class="band">
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="#top" id="brandName"><i></i><span data-c="channelName">Jirk's Farm</span></a>
+      <div class="links"><a href="#farms">Farms</a><a href="#server">Server</a><a class="discord" id="discordBtn" href="#" target="_blank" rel="noopener">Join Discord</a></div>
+    </nav>
+
+    <header class="hero" id="top">
+      <div>
+        <p class="eyebrow">Minecraft Java · Automation</p>
+        <h1>Build it once. <span>Let it farm.</span></h1>
+        <p class="lead">Relaxed, easy-to-follow tutorials for automatic farms in Minecraft Java, plus a friendly survival server to use them on.</p>
+        <div class="cta">
+          <a class="btn" id="subBtn" href="#" target="_blank" rel="noopener"><span class="play"></span>Subscribe on YouTube</a>
+          <a class="btn ghost" href="#farms">Browse farms</a>
+        </div>
+        <div class="stats">
+          <span class="chip"><b id="farmCount">15</b> farm tutorials</span>
+          <span class="chip"><b>Java</b> Edition</span>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="tile t1" aria-hidden="true"></div><div class="tile t4" aria-hidden="true"></div>
+        <a class="latest" id="latest" href="#" target="_blank" rel="noopener">
+          <span class="lthumb"><span class="lbadge">Latest video</span><span class="lplay"><span class="play"></span></span></span>
+          <strong id="latestTitle">Watch my newest upload</strong>
+          <small>Opens on YouTube</small>
+        </a>
+      </div>
+    </header>
+  </div>
+  <svg class="wave" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 35 C 180 80, 360 0, 600 30 S 1000 75, 1200 30 S 1380 10, 1440 35 V70 H0Z"/></svg>
+</div>
+
+<section class="tint" id="farms">
+  <div class="wrap">
+    <div class="head rv">
+      <p class="eyebrow">Tutorials</p>
+      <h2>Automatic farm tutorials</h2>
+      <p>Every build comes with a difficulty rating, and an hourly rate. Tap a card to watch the full tutorial.</p>
+    </div>
+    <div class="filters rv" id="filters" role="group" aria-label="Filter by difficulty"></div>
+    <div class="grid" id="grid"></div>
+    <p class="note">Hourly rates are measured in a loaded chunk with the player standing at the farm. Your results will vary with version and setup.</p>
+  </div>
+  <svg class="wave flip" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true" style="color:var(--bg)"><path d="M0 35 C 200 0, 420 75, 700 35 S 1100 0, 1300 40 S 1420 55, 1440 35 V70 H0Z" style="fill:var(--bg)"/></svg>
+</section>
+
+<section class="band" id="server">
+  <div class="wrap">
+    <div class="head rv">
+      <p class="eyebrow">Join us</p>
+      <h2>Play on the Java server</h2>
+      <p>A cozy survival server where every farm from the channel is welcome. Come build, trade and show off your setups.</p>
+    </div>
+    <div class="server">
+      <div class="ipcard rv">
+        <span class="tag" data-c="serverVersionTag">Minecraft Java Edition</span>
+        <div>
+          <p class="eyebrow" style="margin-bottom:8px">Server address</p>
+          <div class="ip">
+            <code id="ip">play.yourserver.net</code>
+            <button class="btn" id="copy" type="button">Copy</button>
+          </div>
+          <p id="copyMsg" role="status" style="color:var(--muted);font-size:.9rem;margin-top:8px;min-height:1.4em"></p>
+        </div>
+        <div class="feat" id="feat"></div>
+      </div>
+      <ol class="steps rv">
+        <li><div><h3>Open Minecraft Java</h3><p>Launch the game on version <b id="ver">1.21.x</b> from the official launcher.</p></div></li>
+        <li><div><h3>Go to Multiplayer</h3><p>Pick <kbd>Multiplayer</kbd> on the title screen, then <kbd>Add Server</kbd>.</p></div></li>
+        <li><div><h3>Paste the address</h3><p>Name it anything and paste the server address from the box.</p></div></li>
+        <li><div><h3>Join and say hi</h3><p>Select the server, press <kbd>Join Server</kbd> and read the rules at spawn.</p></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap"><b data-c="channelName">Jirk's Farm</b> · Made for the community · Not affiliated with Mojang or Microsoft</div></footer>
+
+<script>
+/* ===== EDIT THESE ===== */
+var CONFIG = {
+  channelName: "Jirk's Farm",
+  channelUrl: "https://www.youtube.com/@JirkNowitzki",   // subscribe button adds ?sub_confirmation=1
+  discordUrl: "https://discord.gg/pTM4cYJHxZ",
+  // Latest video card: the default link always opens your newest upload. To feature one video, paste its link and title here.
+  latestUrl: "https://www.youtube.com/@JirkNowitzki/videos",
+  latestTitle: "Watch my newest upload",
+  serverIp: "play.yourserver.net",
+  serverVersion: "1.21.x",
+  serverFeatures: ["Survival", "Friendly community", "Farms welcome", "No pay-to-win"]
+};
+var FARMS = [
+  {name:"Sugar Cane Farm", diff:1, rate:"≈ 9,000 cane / hr", url:"https://youtu.be/9oVZ9Spfztg"},
+  {name:"Iron Farm", diff:2, rate:"1,000 iron / hr", url:"https://youtu.be/gGwyACssdxI"},
+  {name:"Crop Farm", diff:1, rate:"≈ 4,200 crops / hr", url:"https://youtu.be/QNXGLI1Y3PE"},
+  {name:"Bonemeal Farm", diff:2, rate:"2,000 bone meal / hr", url:"https://youtu.be/U73s_nwc9Cw"},
+  {name:"Melon & Pumpkin Farm", diff:1, rate:"4,000 items / hr", url:"https://youtu.be/4WqG5iHM9B8"},
+  {name:"Gold Farm", diff:3, rate:"≈ 7,500 gold nuggets / hr", url:"https://youtu.be/RoA2W0ZGGgQ"},
+  {name:"Guardian Farm", diff:3, rate:"30,000 items / hr", url:"https://youtu.be/CDAhKzY8XKs"},
+  {name:"Tree Farm", diff:2, rate:"Varies", url:"https://youtu.be/pjKBteshS3Y"},
+  {name:"Wither Skeleton Farm", diff:3, rate:"150+ skulls / hr", url:"https://youtu.be/Zf4stXzptHk"},
+  {name:"Enderman Farm", diff:2, rate:"Varies", url:"https://youtu.be/L7R4s3ZHrPc"},
+  {name:"Kelp Farm", diff:1, rate:"720 kelp / hr", url:"https://youtu.be/0E6y3Li7-R8"},
+  {name:"Wool Farm", diff:1, rate:"72 wool / hr per sheep", url:"https://youtu.be/_qjxOpel4s8"},
+  {name:"Gunpowder Farm", diff:2, rate:"Varies", url:"https://youtu.be/ci2xFZd8258"},
+  {name:"Shulker Farm", diff:3, rate:"950 shells / hr", url:"https://youtu.be/pQfJChwRpXs"},
+  {name:"Slime Farm", diff:3, rate:"3,000 slimeballs / hr", url:"https://youtu.be/c4mkubcTW7o"}
+];
+var LEVELS = {1:["Easy","var(--sage)"],2:["Medium","var(--sky)"],3:["Hard","var(--peach)"]};
+var COLORS = ["var(--sage)","var(--sky)","var(--lav)","var(--peach)"];
+
+/* ===== RENDER ===== */
+document.querySelectorAll("[data-c=channelName]").forEach(function(e){e.textContent=CONFIG.channelName});
+document.getElementById("subBtn").href = CONFIG.channelUrl + (CONFIG.channelUrl.indexOf("?")>-1 ? "&" : "?") + "sub_confirmation=1";
+document.getElementById("discordBtn").href = CONFIG.discordUrl;
+document.getElementById("latest").href = CONFIG.latestUrl;
+document.getElementById("latestTitle").textContent = CONFIG.latestTitle;
+document.getElementById("ip").textContent = CONFIG.serverIp;
+document.getElementById("ver").textContent = CONFIG.serverVersion;
+document.getElementById("farmCount").textContent = FARMS.length;
+var feat = document.getElementById("feat");
+CONFIG.serverFeatures.forEach(function(f,i){var s=document.createElement("span");s.textContent=f;s.style.background=COLORS[i%4];feat.appendChild(s)});
+
+var grid = document.getElementById("grid"), filters = document.getElementById("filters"), current = 0;
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function draw(){
+  grid.innerHTML = FARMS.map(function(f,i){
+    if(current && !((current==="Easy"&&f.diff===1)||(current==="Medium"&&f.diff===2)||(current==="Hard"&&f.diff===3))) return "";
+    var d=""; for(var k=1;k<=3;k++) d+='<i class="'+(k<=f.diff?"on":"")+'"></i>';
+    return '<article class="card rv">'
+      +'<a class="thumb" href="'+esc(f.url)+'" target="_blank" rel="noopener" style="background:'+COLORS[i%4]+'" aria-label="Watch '+esc(f.name)+' on YouTube"><span class="pbtn"><span class="play"></span></span></a>'
+      +'<div class="body"><h3>'+esc(f.name)+'</h3>'
+      +'<div class="meta"><span class="diff"><span class="dots" aria-hidden="true">'+d+'</span><span class="pill" style="background:'+LEVELS[f.diff][1]+'">'+LEVELS[f.diff][0]+'</span></span></div>'
+      +'<div class="rate"><span>Hourly rate</span><b>'+esc(f.rate)+'</b></div>'
+      +'<a class="watch" href="'+esc(f.url)+'" target="_blank" rel="noopener"><span class="play"></span>Watch the tutorial</a></div></article>';
+  }).join("") || '<p class="note">No farms at this level yet.</p>';
+}
+["All","Easy","Medium","Hard"].forEach(function(l){
+  var b=document.createElement("button");b.type="button";b.textContent=l;b.setAttribute("aria-pressed",l==="All");
+  b.onclick=function(){current=l==="All"?0:l;[].forEach.call(filters.children,function(x){x.setAttribute("aria-pressed",x===b)});draw()};
+  filters.appendChild(b);
+});
+draw();
+
+/* ===== COPY IP ===== */
+document.getElementById("copy").onclick=function(){
+  var msg=document.getElementById("copyMsg"), ip=document.getElementById("ip");
+  function sel(){var r=document.createRange();r.selectNodeContents(ip);var s=getSelection();s.removeAllRanges();s.addRange(r);msg.textContent="Press Ctrl+C or tap Copy on your device."}
+  try{navigator.clipboard.writeText(CONFIG.serverIp).then(function(){msg.textContent="Copied. Paste it into Add Server."},sel)}catch(e){sel()}
+};
+
+/* ===== FLOWY SCROLL ===== */
+var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+if(!reduce){
+  var vh = innerHeight;
+  function arm(){
+    document.querySelectorAll(".rv:not(.seen)").forEach(function(el){
+      if(el.getBoundingClientRect().top > vh) el.classList.add("pre");
+    });
+    if("IntersectionObserver" in window){
+      var io = new IntersectionObserver(function(es){es.forEach(function(e){
+        if(e.isIntersecting){e.target.classList.remove("pre");e.target.classList.add("seen");io.unobserve(e.target)}
+      })},{rootMargin:"0px 0px -8% 0px"});
+      document.querySelectorAll(".rv.pre").forEach(function(el,i){el.style.transitionDelay=((i%3)*90)+"ms";io.observe(el)});
+    } else { document.querySelectorAll(".pre").forEach(function(el){el.classList.remove("pre")}) }
+  }
+  arm();
+  var blobs=[].slice.call(document.querySelectorAll(".blob")), tick=false;
+  addEventListener("scroll",function(){
+    if(tick) return; tick=true;
+    requestAnimationFrame(function(){var y=scrollY;blobs.forEach(function(b){b.style.transform="translateY("+(y*b.dataset.s*-1)+"px)"});tick=false});
+  },{passive:true});
+  // re-arm new cards after a filter change
+  var mo=new MutationObserver(function(){arm()});mo.observe(grid,{childList:true});
+}
+</script>
